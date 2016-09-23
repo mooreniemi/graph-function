@@ -38,8 +38,7 @@ The simplest usage (suitable for a large class of exercises, in my experience) i
 
 ```ruby
 c = YourClass.new # this class has #function_name_one & #function_name_two
-comparison = Graph::Function::IntsComparison.new
-comparison.of(c.method(:function_name_one), c.method(:function_name_two))
+Graph::Function::IntsComparison.of(c.method(:function_name_one), c.method(:function_name_two))
 # => will output an xquartz graph
 ```
 
