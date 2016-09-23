@@ -24,13 +24,13 @@ Or install it yourself as:
 
 ## Usage
 
-In general, you'll be using or creating a `Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. Check out the [spec file](spec/graph/function_spec.rb) to see all of these and more examples.
+For most use cases, you'll be creating a `Graph::Function::Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. Check out the [spec file](spec/graph/function_spec.rb) to see all of these and more examples. `Comparison` and `Only` take a generator when initialized, but because `IntsComparison` does not, `of` is a class method instead.
 
 The simplest usage (suitable for a large class of exercises, in my experience) is if you're comparing two functions that take a single argument of `Array[Int]` type:
 
 ```ruby
 c = YourClass.new # this class has #function_name_one & #function_name_two
-comparison = Graph::Function::Comparison.new
+comparison = Graph::Function::IntsComparison.new
 comparison.of(c.method(:function_name_one), c.method(:function_name_two))
 # => will output an xquartz graph
 ```
@@ -41,7 +41,7 @@ If your functions need to operate on other types, then you need to generate valu
 
 ```ruby
 generator = proc {|size| Rantly { dict(size) { [string, integer] } }
-dict_comparison = Graph::Function::CustomComparison.new(generator)
+dict_comparison = Graph::Function::Comparison.new(generator)
 # CustomComparison can take any number of Methods
 dict_comparison.of(method(:hash_func_one), method(:hash_func_two))
 # => will output an xquartz graph

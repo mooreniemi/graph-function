@@ -5,19 +5,19 @@ describe Graph::Function do
     expect(Graph::Function::VERSION).not_to be nil
   end
 
-  describe Graph::Function::Comparison do
+  describe Graph::Function::IntsComparison do
     def one(array)
-      array.each {|e| puts e }
+      array.each {|e| e }
     end
     def two(array)
-      array.each {|e| puts e * 2 }
+      array.each {|e| e * 2 }
     end
     it 'plots two functions' do
-      Graph::Function::Comparison.of(method(:one), method(:two))
+      Graph::Function::IntsComparison.of(method(:one), method(:two))
     end
   end
 
-  describe Graph::Function::CustomComparison do
+  describe Graph::Function::Comparison do
     let(:rantly_generator) do
       proc {|size|
         Rantly { dict(size) { [string, integer] }}
@@ -30,7 +30,7 @@ describe Graph::Function do
       hash.values.first
     end
     it 'uses a Rantly generator for x data' do
-      comparison = Graph::Function::CustomComparison.new(rantly_generator)
+      comparison = Graph::Function::Comparison.new(rantly_generator)
       comparison.of(method(:hash_last_value), method(:hash_first_value))
     end
   end
