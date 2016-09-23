@@ -1,7 +1,12 @@
 module Graph
   module Function
-    class Comparison
+    class CustomComparison
       include ReformatString
+      attr_accessor :data_generator
+      def initialize(generator)
+        @data_generator = generator
+      end
+
       def of(method_one, method_two)
         fail unless method_one.is_a?(Method) && method_two.is_a?(Method)
 
@@ -17,8 +22,7 @@ module Graph
             x = (0..10000).step(1000).to_a
 
             y = x.collect do |v|
-              array = (0..v - 1).to_a.shuffle
-              Benchmark.measure { a(array) }.real
+              Benchmark.measure { a(data_generator.call(v)) }.real
             end
 
             plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|
@@ -27,8 +31,7 @@ module Graph
             end
 
             z = x.collect do |v|
-              array = (0..v - 1).to_a.shuffle
-              Benchmark.measure { b(array) }.real
+              Benchmark.measure { b(data_generator.call(v)) }.real
             end
 
             plot.data << Gnuplot::DataSet.new( [x, z] ) do |ds|

@@ -17,4 +17,22 @@ describe Graph::Function do
       comparison.of(method(:one), method(:two))
     end
   end
+
+  describe Graph::Function::CustomComparison do
+    let(:rantly_generator) do
+      proc {|size|
+        Rantly { dict(size) { [string, integer] }}
+      }
+    end
+    def hash_last_value(hash)
+      hash.values.last
+    end
+    def hash_first_value(hash)
+      hash.values.first
+    end
+    it 'uses a Rantly generator for x data' do
+      comparison = Graph::Function::CustomComparison.new(rantly_generator)
+      comparison.of(method(:hash_last_value), method(:hash_first_value))
+    end
+  end
 end
