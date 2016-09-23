@@ -76,4 +76,6 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/mooren
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+## Footnotes
+
 <b id="f1">1</b> Why are we constrained to testing the same parameter types? The intent of this library is to graph _implementations_. Changing parameter types suggests a change in the _behavior_ of the function. That doesn't make for a very productive comparison. [↩](#a1)
