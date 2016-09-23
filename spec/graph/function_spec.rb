@@ -44,9 +44,25 @@ describe Graph::Function do
     def single_func(as)
       as.map(&:upcase)
     end
+    let(:faker_generator) do
+      proc {|size|
+        Rantly(size) { call(Proc.new { Faker::Date.backward(14) }) }
+      }
+    end
+    def custom_types(faked)
+      if faked.is_a?(Array)
+        faked.map {|e| e.strftime("at %I:%M%p") }
+      else
+        faked.strftime("at %I:%M%p")
+      end
+    end
     it 'uses a Rantly generator and acts on one function' do
       graph = Graph::Function::Only.new(rantly_generator)
       graph.of(method(:single_func))
+    end
+    it 'can use a Faker/Rantly generator and acts on one function' do
+      graph = Graph::Function::Only.new(faker_generator)
+      graph.of(method(:custom_types))
     end
   end
 end

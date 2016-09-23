@@ -49,6 +49,18 @@ dict_comparison.of(method(:hash_func_one), method(:hash_func_two))
 
 ![comparison](custom_comparison.jpg)
 
+If you want to make use of more "real" fake data, [Faker](https://github.com/stympy/faker) is included, and can be used like so:
+
+```ruby
+faker_generator = proc {|size| Rantly(size) { call(Proc.new { Faker::Date.backward(14) }) }
+# using Only here, but anything that takes a generator can take one with Faker
+graph = Graph::Function::Only.new(faker_generator)
+graph.of(method(:custom_types))
+# => will output an xquartz graph
+```
+
+The only downside here is that you can't parameterize `Faker`, but you could use random generators to mix it up. Using the above example, `graph-function` won't pass anything into the `faker_generator` but the `size`, so if we want the value to change, we could use `Faker::Date.backward(proc { rand(10) }.call)`.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
