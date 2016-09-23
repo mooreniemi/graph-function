@@ -1,5 +1,6 @@
 # Graph::Function
 
+When I work on katas and exercises I found I often wanted to compare my implementations. After doing so a half dozen times I noticed some patterns, and figured it'd be valuable to capture those into an easier API to work with.
 
 ## Installation
 
@@ -19,7 +20,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The simplest usage is if you're comparing two functions that take a single argument of `Array` type:
+
+```ruby
+c = YourClass.new # this class has #function_name_one & #function_name_two
+comparison = Graph::Function::Comparison.new
+comparison.of(c.method(:function_name_one), c.method(:function_name_two))
+# => will output an xquartz graph
+```
 
 ## Development
 
