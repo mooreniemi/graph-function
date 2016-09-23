@@ -8,7 +8,15 @@ Because of the current implementation details: Ruby methods which operate on `se
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Because this gem depends on `gnuplot` and `xquartz`, we need to follow their [prereq steps](https://github.com/rdp/ruby_gnuplot#pre-requisites-and-installation):
+
+```
+# these will vary by your system, mine is mac
+brew install Caskroom/cask/xquartz
+brew install gnuplot --with-x11
+```
+
+Now we're set. Add this line to your application's Gemfile:
 
 ```ruby
 gem 'graph-function'
@@ -24,7 +32,7 @@ Or install it yourself as:
 
 ## Usage
 
-For most use cases, you'll be creating a `Graph::Function::Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. Check out the [spec file](spec/graph/function_spec.rb) to see all of these and more examples. `Comparison` and `Only` take a generator when initialized, but because `IntsComparison` does not, `of` is a class method instead.
+For most use cases, you'll be creating a `Graph::Function::Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. `Comparison` and `Only` take a generator when initialized, but because `IntsComparison` does not, `.of` is a class method instead.
 
 The simplest usage (suitable for a large class of exercises, in my experience) is if you're comparing two functions that take a single argument of `Array[Int]` type:
 
@@ -60,6 +68,8 @@ graph.of(method(:custom_types))
 ```
 
 The only downside here is that you can't parameterize `Faker`, but you could use random generators to mix it up. Using the above example, `graph-function` won't pass anything into the `faker_generator` but the `size`, so if we want the value to change, we could use `Faker::Date.backward(proc { rand(10) }.call)`.
+
+Check out the [spec file](spec/graph/function_spec.rb) to see all of these and more examples.
 
 ## Development
 
