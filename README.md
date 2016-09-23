@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-The simplest usage is if you're comparing two functions that take a single argument of `Array` type:
+The simplest usage--suitable for a large class of exercises--is if you're comparing two functions that take a single argument of `Array[Int]` type:
 
 ```ruby
 c = YourClass.new # this class has #function_name_one & #function_name_two

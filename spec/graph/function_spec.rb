@@ -5,7 +5,7 @@ describe Graph::Function do
     expect(Graph::Function::VERSION).not_to be nil
   end
 
-  describe '#compare' do
+  describe Graph::Function::Comparison do
     def one(array)
       array.each {|e| puts e }
     end
