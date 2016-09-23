@@ -2,6 +2,7 @@ module Graph
   module Function
     class Comparison
       include ReformatString
+      include PlotConfig
       attr_accessor :data_generator
 
       def initialize(generator)
@@ -19,8 +20,7 @@ module Graph
           Gnuplot::Plot.new(gp) do |plot|
 
             plot.title  "#{methods.map {|m| camel_title(m.name) }.join(', ') }"
-            plot.ylabel 'execution time'
-            plot.xlabel 'input size'
+						set_up(plot)
 
             x = (0..10000).step(1000).to_a
 

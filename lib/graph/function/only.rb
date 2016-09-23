@@ -2,6 +2,7 @@ module Graph
   module Function
     class Only
       include ReformatString
+      include PlotConfig
       attr_accessor :data_generator
 
       def initialize(generator)
@@ -17,8 +18,7 @@ module Graph
           Gnuplot::Plot.new(gp) do |plot|
 
             plot.title  "#{camel_title(method_obj.name)}"
-            plot.ylabel 'execution time'
-            plot.xlabel 'input size'
+            set_up(plot)
 
             x = (0..10000).step(1000).to_a
 

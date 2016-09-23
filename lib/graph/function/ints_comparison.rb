@@ -2,6 +2,7 @@ module Graph
   module Function
     class IntsComparison
       extend ReformatString
+      extend PlotConfig
 
       def self.of(method_one, method_two)
         fail unless method_one.is_a?(Method) && method_two.is_a?(Method)
@@ -12,8 +13,7 @@ module Graph
             self.class.send(:define_method, :b, proc(&method_two))
 
             plot.title  "#{camel_title(method_one.name)} vs #{camel_title(method_two.name)}"
-            plot.ylabel 'execution time'
-            plot.xlabel 'input size'
+            set_up(plot)
 
             x = (0..10000).step(1000).to_a
 

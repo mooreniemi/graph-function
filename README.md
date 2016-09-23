@@ -14,6 +14,8 @@ Because this gem depends on `gnuplot` and `xquartz`, we need to follow their [pr
 # these will vary by your system, mine is mac
 brew install Caskroom/cask/xquartz
 brew install gnuplot --with-x11
+# verify you have x11
+xpdyinfo | grep version
 ```
 
 Now we're set. Add this line to your application's Gemfile:
@@ -31,6 +33,22 @@ Or install it yourself as:
     $ gem install graph-function
 
 ## Usage
+
+To set up, you only need the following:
+
+```ruby
+require 'graph/function'
+Graph::Function.configure
+```
+
+If you don't want to output to x11, just set `config.terminal` to a different option like `jpg`. Output is the file location of output, and is ignored for x11.
+
+```ruby
+Graph::Function.configure do |config|
+  config.terminal = 'jpg'
+	config.output = File.expand_path('../your_graph_name.jpg', __FILE__)
+end
+```
 
 For most use cases, you'll be creating a `Graph::Function::Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. `Comparison` and `Only` take a generator when initialized, but because `IntsComparison` does not, `.of` is a class method instead.
 

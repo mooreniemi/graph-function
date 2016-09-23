@@ -15,6 +15,11 @@ describe Graph::Function do
     it 'plots two functions' do
       Graph::Function::IntsComparison.of(method(:one), method(:two))
     end
+    it 'can output to jpg' do
+      Graph::Function.configuration.terminal = 'gif'
+      Graph::Function.configuration.output = File.expand_path('../graph.gif', __FILE__)
+      Graph::Function::IntsComparison.of(method(:one), method(:two))
+    end
   end
 
   describe Graph::Function::Comparison do
