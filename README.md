@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-In general, you'll be using or creating a `Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types[^1]. Check out the [spec file](spec/graph/function_spec.rb) to see all of these and more examples.
+In general, you'll be using or creating a `Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. Check out the [spec file](spec/graph/function_spec.rb) to see all of these and more examples.
 
 The simplest usage (suitable for a large class of exercises, in my experience) is if you're comparing two functions that take a single argument of `Array[Int]` type:
 
@@ -76,4 +76,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/mooren
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
-[^1]: Why are we constrained to testing the same parameter types? The intent of this library is to graph _implementations_. Changing parameter types suggests a change in the _behavior_ of the function. That doesn't make for a very productive comparison.
+<b id="f1">1</b> Why are we constrained to testing the same parameter types? The intent of this library is to graph _implementations_. Changing parameter types suggests a change in the _behavior_ of the function. That doesn't make for a very productive comparison. [↩](#a1)
