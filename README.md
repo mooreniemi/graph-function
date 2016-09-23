@@ -20,12 +20,23 @@ Or install it yourself as:
 
 ## Usage
 
+In general, you'll be using or creating a `Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types.
+
 The simplest usage--suitable for a large class of exercises--is if you're comparing two functions that take a single argument of `Array[Int]` type:
 
 ```ruby
 c = YourClass.new # this class has #function_name_one & #function_name_two
 comparison = Graph::Function::Comparison.new
 comparison.of(c.method(:function_name_one), c.method(:function_name_two))
+# => will output an xquartz graph
+```
+
+If your functions need to operate on other types, then you need to generate values of those types. For this, I use [Rantly](https://github.com/hayeah/rantly). Here's an example of comparing two functions that take `Hash{String => Integer}`:
+
+```ruby
+generator = proc {|size| Rantly { dict(size) { [string, integer] } }
+comparison = Graph::Function::CustomComparison.new(generator)
+comparison.of(method(:hash_func_one), method(:hash_func_two))
 # => will output an xquartz graph
 ```
 

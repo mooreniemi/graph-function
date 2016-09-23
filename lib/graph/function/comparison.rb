@@ -1,8 +1,9 @@
 module Graph
   module Function
     class Comparison
-      include ReformatString
-      def of(method_one, method_two)
+      extend ReformatString
+
+      def self.of(method_one, method_two)
         fail unless method_one.is_a?(Method) && method_two.is_a?(Method)
 
         Gnuplot.open do |gp|

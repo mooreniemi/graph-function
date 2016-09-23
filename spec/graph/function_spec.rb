@@ -13,8 +13,7 @@ describe Graph::Function do
       array.each {|e| puts e * 2 }
     end
     it 'plots two functions' do
-      comparison = Graph::Function::Comparison.new
-      comparison.of(method(:one), method(:two))
+      Graph::Function::Comparison.of(method(:one), method(:two))
     end
   end
 
