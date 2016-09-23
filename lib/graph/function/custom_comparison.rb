@@ -26,8 +26,9 @@ module Graph
 
             methods.each do |m|
               y = x.collect do |v|
-                #FIXME can i get ride of the cost of `send`?
-                Benchmark.measure { self.send(m.name, (data_generator.call(v))) }.real
+                data = data_generator.call(v)
+                # FIXME can i get ride of the cost of `send`?
+                Benchmark.measure { self.send(m.name, data) }.real
               end
 
               plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|

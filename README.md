@@ -2,6 +2,10 @@
 
 When I work on katas and exercises I found I often wanted to compare my implementations. After doing so a half dozen times I noticed some patterns, and figured it'd be valuable to capture those into an easier API to work with.
 
+## Disclaimer
+
+Because of the current implementation details: Ruby methods which operate on `self` **will not work**, and there is a negligible constant slow down on all functions tested because of use of `send(:func)`. The latter won't corrupt comparisons, but means you don't want to use this to benchmark functions individually except through `Graph::Function::Only`.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,7 +26,7 @@ Or install it yourself as:
 
 In general, you'll be using or creating a `Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types.
 
-The simplest usage--suitable for a large class of exercises--is if you're comparing two functions that take a single argument of `Array[Int]` type:
+The simplest usage (suitable for a large class of exercises, in my experience) is if you're comparing two functions that take a single argument of `Array[Int]` type:
 
 ```ruby
 c = YourClass.new # this class has #function_name_one & #function_name_two
@@ -36,6 +40,7 @@ If your functions need to operate on other types, then you need to generate valu
 ```ruby
 generator = proc {|size| Rantly { dict(size) { [string, integer] } }
 comparison = Graph::Function::CustomComparison.new(generator)
+# CustomComparison can take any number of Methods
 comparison.of(method(:hash_func_one), method(:hash_func_two))
 # => will output an xquartz graph
 ```

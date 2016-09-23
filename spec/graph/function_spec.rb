@@ -34,4 +34,19 @@ describe Graph::Function do
       comparison.of(method(:hash_last_value), method(:hash_first_value))
     end
   end
+
+  describe Graph::Function::Only do
+    let(:rantly_generator) do
+      proc {|size|
+        Rantly { array(size) {string} }
+      }
+    end
+    def single_func(as)
+      as.map(&:upcase)
+    end
+    it 'uses a Rantly generator and acts on one function' do
+      graph = Graph::Function::Only.new(rantly_generator)
+      graph.of(method(:single_func))
+    end
+  end
 end
