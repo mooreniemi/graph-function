@@ -45,7 +45,7 @@ If you don't want to output to x11, just set `config.terminal` to a different op
 
 ```ruby
 Graph::Function.configure do |config|
-  config.terminal = 'gif
+  config.terminal = 'gif'
   config.output = File.expand_path('../your_graph_name.gif', __FILE__)
 end
 ```
