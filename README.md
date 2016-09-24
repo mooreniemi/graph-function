@@ -6,7 +6,7 @@ When I work on katas and exercises I found I often wanted to compare my implemen
 
 ## Disclaimer
 
-Because of the current implementation details: Ruby methods which operate on `self` **will not work**, and there is a negligible constant slow down on all functions tested by `Comparison` because of the use of `send(:func)`. The latter won't corrupt comparisons, but means you don't want to use this gem to benchmark functions individually except through `Graph::Function::Only`.
+Because of the current implementation details: Ruby methods which operate on `self` **will not work**, and there is a negligible constant slow down on all functions tested by `Comparison` because of the use of `send(:func)`. The latter won't corrupt comparisons, but means you don't want to use this gem to benchmark functions individually **except** through `Graph::Function::Only`.
 
 ## Installation
 
@@ -52,8 +52,6 @@ Graph::Function.configure do |config|
 end
 ```
 
-For most use cases, you'll be creating a `Graph::Function::Comparison` and executing `#of` on it to provide it with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. `Comparison` and `Only` take a generator when initialized, but because `IntsComparison` does not, `.of` is a class method instead.
-
 The simplest usage (suitable for a large class of exercises, in my experience) is if you're comparing two functions that take a single argument of `Array[Int]` type:
 
 ```ruby
@@ -64,19 +62,21 @@ Graph::Function::IntsComparison.of(c.method(:function_name_one), c.method(:funct
 
 ![comparison](spec/graph/two_func.gif)
 
-If your functions need to operate on other types, then you need to generate values of those types. For this, I use [Rantly](https://github.com/hayeah/rantly). Here's an example of comparing two functions that take `Hash{String => Integer}`:
+For more complex use cases, you'll be creating a `Graph::Function::Comparison` (or `Graph::Function::Only` if you want to graph a single function) with some generator of data, and executing `#of` with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. (Note because `IntsComparison` *does not need a generator*, `.of` is a class method instead.)
+
+To generate values of the type needed by your function, I use [Rantly](https://github.com/hayeah/rantly). Here's an example of comparing two functions that take `Hash{String => Integer}`:
 
 ```ruby
 generator = proc {|size| Rantly { dict(size) { [string, integer] } }
 dict_comparison = Graph::Function::Comparison.new(generator)
-# Comparison can take any number of Methods
+# Comparison can take any number of Methods, but for now, 2
 dict_comparison.of(method(:hash_func_one), method(:hash_func_two))
 # => will output an xquartz graph
 ```
 
 ![comparison](spec/graph/comparison.gif)
 
-If you want to make use of more "real" fake data, [Faker](https://github.com/stympy/faker) is included, and can be used like so:
+If you want to make use of more "real" fake data, [Faker](https://github.com/stympy/faker) is included, and can be used like so in your generators:
 
 ```ruby
 faker_generator = proc {|size| Rantly(size) { call(Proc.new { Faker::Date.backward(14) }) }
