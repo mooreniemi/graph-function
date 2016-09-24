@@ -67,7 +67,7 @@ If your functions need to operate on other types, then you need to generate valu
 ```ruby
 generator = proc {|size| Rantly { dict(size) { [string, integer] } }
 dict_comparison = Graph::Function::Comparison.new(generator)
-# CustomComparison can take any number of Methods
+# Comparison can take any number of Methods
 dict_comparison.of(method(:hash_func_one), method(:hash_func_two))
 # => will output an xquartz graph
 ```
