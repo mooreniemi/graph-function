@@ -2,6 +2,7 @@ require 'gnuplot'
 require 'benchmark'
 require 'rantly'
 require 'faker'
+require 'ruby-progressbar'
 
 require 'graph/function/version'
 require 'graph/function/reformat_string'

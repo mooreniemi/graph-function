@@ -17,7 +17,9 @@ module Graph
 
             x = (0..10000).step(1000).to_a
 
+            pb = ProgressBar.create
             y = x.collect do |v|
+              pb.increment
               array = (0..v - 1).to_a.shuffle
               Benchmark.measure { a(array) }.real
             end
@@ -27,7 +29,9 @@ module Graph
               ds.title = "#{escape_underscores(method_one.name)}"
             end
 
+            pb = ProgressBar.create
             z = x.collect do |v|
+              pb.increment
               array = (0..v - 1).to_a.shuffle
               Benchmark.measure { b(array) }.real
             end
