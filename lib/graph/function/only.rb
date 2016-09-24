@@ -17,12 +17,14 @@ module Graph
         Gnuplot.open do |gp|
           Gnuplot::Plot.new(gp) do |plot|
 
-            plot.title  "#{camel_title(method_obj.name)}"
+            plot.title  "#{title = camel_title(method_obj.name)}"
             set_up(plot)
 
             x = (0..10000).step(1000).to_a
+            pb = ProgressBar.create(title: title, total: x.size)
 
             y = x.collect do |v|
+              pb.increment
               data = data_generator.call(v)
               Benchmark.measure { a(data) }.real
             end

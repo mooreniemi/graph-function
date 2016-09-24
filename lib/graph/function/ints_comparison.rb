@@ -12,12 +12,12 @@ module Graph
             self.class.send(:define_method, :a, proc(&method_one))
             self.class.send(:define_method, :b, proc(&method_two))
 
-            plot.title  "#{camel_title(method_one.name)} vs #{camel_title(method_two.name)}"
+            plot.title  (title = "#{camel_title(method_one.name)} vs #{camel_title(method_two.name)}")
             set_up(plot)
 
             x = (0..10000).step(1000).to_a
+            pb = ProgressBar.create(title: title, total: x.size)
 
-            pb = ProgressBar.create
             y = x.collect do |v|
               pb.increment
               array = (0..v - 1).to_a.shuffle
@@ -29,7 +29,8 @@ module Graph
               ds.title = "#{escape_underscores(method_one.name)}"
             end
 
-            pb = ProgressBar.create
+            pb.reset
+
             z = x.collect do |v|
               pb.increment
               array = (0..v - 1).to_a.shuffle

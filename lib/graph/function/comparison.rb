@@ -19,13 +19,16 @@ module Graph
         Gnuplot.open do |gp|
           Gnuplot::Plot.new(gp) do |plot|
 
-            plot.title  "#{methods.map {|m| camel_title(m.name) }.join(', ') }"
+            plot.title  "#{title = methods.map {|m| camel_title(m.name) }.join(', ') }"
 						set_up(plot)
 
             x = (0..10000).step(1000).to_a
+            pb = ProgressBar.create(title: title, total: x.size)
 
             methods.each do |m|
+              pb.reset
               y = x.collect do |v|
+                pb.increment
                 data = data_generator.call(v)
                 # FIXME can i get ride of the cost of `send`?
                 Benchmark.measure { self.send(m.name, data) }.real
