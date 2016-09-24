@@ -41,7 +41,7 @@ require 'graph/function'
 Graph::Function.configure
 ```
 
-If you don't want to output to x11, just set `config.terminal` to a different option like `gif`. Output is the file location of output, and is ignored for x11.
+If you don't want to output to x11, just set `config.terminal` to a different option like `gif` (or anything else gnuplot [respects as a terminal](http://mibai.tec.u-ryukyu.ac.jp/~oshiro/Doc/gnuplot_primer/gptermcmp.html)). Output is the file location of output, and is ignored for x11.
 
 ```ruby
 Graph::Function.configure do |config|
