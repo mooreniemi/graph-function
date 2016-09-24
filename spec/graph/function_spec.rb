@@ -17,7 +17,7 @@ describe Graph::Function do
     end
     it 'can output to jpg' do
       Graph::Function.configuration.terminal = 'gif'
-      Graph::Function.configuration.output = File.expand_path('../graph.gif', __FILE__)
+      Graph::Function.configuration.output = File.expand_path('../two_func.gif', __FILE__)
       Graph::Function::IntsComparison.of(method(:one), method(:two))
     end
   end
@@ -35,6 +35,8 @@ describe Graph::Function do
       hash.values.first
     end
     it 'uses a Rantly generator for x data' do
+      Graph::Function.configuration.terminal = 'gif'
+      Graph::Function.configuration.output = File.expand_path('../comparison.gif', __FILE__)
       comparison = Graph::Function::Comparison.new(rantly_generator)
       comparison.of(method(:hash_last_value), method(:hash_first_value))
     end
@@ -66,6 +68,8 @@ describe Graph::Function do
       graph.of(method(:single_func))
     end
     it 'can use a Faker/Rantly generator and acts on one function' do
+      Graph::Function.configuration.terminal = 'gif'
+      Graph::Function.configuration.output = File.expand_path('../faker.gif', __FILE__)
       graph = Graph::Function::Only.new(faker_generator)
       graph.of(method(:custom_types))
     end

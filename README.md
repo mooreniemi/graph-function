@@ -45,8 +45,8 @@ If you don't want to output to x11, just set `config.terminal` to a different op
 
 ```ruby
 Graph::Function.configure do |config|
-  config.terminal = 'jpg'
-  config.output = File.expand_path('../your_graph_name.jpg', __FILE__)
+  config.terminal = 'gif
+  config.output = File.expand_path('../your_graph_name.gif, __FILE__)
 end
 ```
 
@@ -60,7 +60,7 @@ Graph::Function::IntsComparison.of(c.method(:function_name_one), c.method(:funct
 # => will output an xquartz graph
 ```
 
-![comparison](two_func.jpg)
+![comparison](spec/graph/two_func.gif)
 
 If your functions need to operate on other types, then you need to generate values of those types. For this, I use [Rantly](https://github.com/hayeah/rantly). Here's an example of comparing two functions that take `Hash{String => Integer}`:
 
@@ -72,7 +72,7 @@ dict_comparison.of(method(:hash_func_one), method(:hash_func_two))
 # => will output an xquartz graph
 ```
 
-![comparison](custom_comparison.jpg)
+![comparison](spec/graph/comparison.gif)
 
 If you want to make use of more "real" fake data, [Faker](https://github.com/stympy/faker) is included, and can be used like so:
 
@@ -83,6 +83,8 @@ graph = Graph::Function::Only.new(faker_generator)
 graph.of(method(:custom_types))
 # => will output an xquartz graph
 ```
+
+![faker](spec/graph/faker.gif)
 
 The only downside here is that you can't parameterize `Faker`, but you could use random generators to mix it up. Using the above example, `graph-function` won't pass anything into the `faker_generator` but the `size`, so if we want the value to change, we could use `Faker::Date.backward(proc { rand(10) }.call)`.
 
