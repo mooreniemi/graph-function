@@ -49,8 +49,11 @@ If you don't want to output to x11, just set `config.terminal` to a different op
 Graph::Function.configure do |config|
   config.terminal = 'gif'
   config.output = File.expand_path('../your_graph_name.gif', __FILE__)
+  config.step = (0..10_000).step(1000).to_a # default value
 end
 ```
+
+In configuration, you can also control the "step" size of `x` in the plot. Its default value is `(0..10_000).step(1000).to_a` (`[0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]`) but you can make it as fine or rough grained as you need up to any size.
 
 The simplest usage (suitable for a large class of exercises, in my experience) is if you're comparing two functions that take a single argument of `Array[Int]` type:
 

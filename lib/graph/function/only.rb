@@ -20,7 +20,7 @@ module Graph
             plot.title  "#{title = camel_title(method_obj.name)}"
             set_up(plot)
 
-            x = (0..10000).step(1000).to_a
+            x = Graph::Function.configuration.step
             pb = ProgressBar.create(title: title, total: x.size)
 
             y = x.collect do |v|

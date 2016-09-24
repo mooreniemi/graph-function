@@ -25,6 +25,7 @@ module Graph
 
     class Configuration
       attr_accessor :terminal, :output
+      attr_accessor :step
 
       # defaults
       # see https://github.com/rdp/ruby_gnuplot/blob/master/examples/output_image_file.rb
@@ -32,6 +33,7 @@ module Graph
       def initialize
         @terminal = 'x11'
         @output = '.'
+        @step = (0..10_000).step(1000).to_a
       end
     end
   end

@@ -22,7 +22,7 @@ module Graph
             plot.title  "#{title = methods.map {|m| camel_title(m.name) }.join(', ') }"
 						set_up(plot)
 
-            x = (0..10000).step(1000).to_a
+            x = Graph::Function.configuration.step
             pb = ProgressBar.create(title: title, total: x.size)
 
             methods.each do |m|
