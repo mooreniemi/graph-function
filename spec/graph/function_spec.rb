@@ -64,6 +64,8 @@ describe Graph::Function do
       end
     end
     it 'uses a Rantly generator and acts on one function' do
+      Graph::Function.configuration.terminal = 'gif'
+      Graph::Function.configuration.output = File.expand_path('../rantly.gif', __FILE__)
       graph = Graph::Function::Only.new(rantly_generator)
       graph.of(method(:single_func))
     end
