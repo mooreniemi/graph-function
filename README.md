@@ -64,9 +64,10 @@ Graph::Function::IntsComparison.of(c.method(:function_name_one), c.method(:funct
 
 For more complex use cases, you'll be creating a `Graph::Function::Comparison` (or `Graph::Function::Only` if you want to graph a single function) with some generator of data, and executing `#of` with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. (Note because `IntsComparison` *does not need a generator*, `.of` is a class method instead.)
 
-To generate values of the type needed by your function, I use [Rantly](https://github.com/hayeah/rantly). Here's an example of comparing two functions that take `Hash{String => Integer}`:
+To generate values of the type needed by your function, use the provided dependency [Rantly](https://github.com/hayeah/rantly). There's great documentation on generating many different kinds of data in their documentation, but here's an example of comparing two functions that take `Hash{String => Integer}`:
 
 ```ruby
+# you must put it in a proc taking size so Graph::Function can increase it
 generator = proc {|size| Rantly { dict(size) { [string, integer] } }
 dict_comparison = Graph::Function::Comparison.new(generator)
 # Comparison can take any number of Methods, but for now, 2
@@ -76,9 +77,10 @@ dict_comparison.of(method(:hash_func_one), method(:hash_func_two))
 
 ![comparison](spec/graph/comparison.gif)
 
-If you want to make use of more "real" fake data, [Faker](https://github.com/stympy/faker) is included, and can be used like so in your generators:
+If you want to make use of more "real" fake data, [Faker](https://github.com/stympy/faker) is also included, and can be used like so in your generators:
 
 ```ruby
+# again, we need to parameterize our generator with size
 faker_generator = proc {|size| Rantly(size) { call(Proc.new { Faker::Date.backward(14) }) }
 # using Only here, but anything that takes a generator can take one with Faker
 graph = Graph::Function::Only.new(faker_generator)
