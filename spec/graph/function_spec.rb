@@ -20,6 +20,11 @@ describe Graph::Function do
       Graph::Function.configuration.output = File.expand_path('../two_func.gif', __FILE__)
       Graph::Function::IntsComparison.of(method(:one), method(:two))
     end
+    it 'can output to txt' do
+      Graph::Function.configuration.terminal = 'dumb'
+      Graph::Function.configuration.output = File.expand_path('../two_func.txt', __FILE__)
+      Graph::Function::IntsComparison.of(method(:one), method(:two))
+    end
   end
 
   describe Graph::Function::Comparison do

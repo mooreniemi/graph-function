@@ -1,6 +1,6 @@
 # Graph::Function
 
-This gem's goal is to make it easy to compare the asymptotic performance of two or more functions via graphing.
+This gem's goal is to make it easy to compare the [asymptotic performance](https://en.wikipedia.org/wiki/Asymptotic_analysis) of two or more functions via graphing.
 
 When I work on katas and exercises I found I often wanted to compare my implementations. After doing so a half dozen times I noticed some patterns, and figured it'd be valuable to capture those into an easier API to work with. While working on a kata I like the immediacy of replotting back on x11, but because of gnuplot's structure it is just as easy to get images or html canvas graphs.
 
