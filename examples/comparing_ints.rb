@@ -1,10 +1,6 @@
 require 'graph/function'
 
-file = File.expand_path('../comparing.html', __FILE__)
-Graph::Function.configure do |config|
-  config.terminal = 'canvas'
-  config.output = file
-end
+Graph::Function.as_canvas
 
 def bubble_sort(array)
   n = array.length
@@ -25,5 +21,4 @@ def sort(array)
   array.sort
 end
 
-puts "output: #{file}"
 Graph::Function::IntsComparison.of(method(:sort), method(:bubble_sort))
