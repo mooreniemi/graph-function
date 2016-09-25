@@ -1,7 +1,6 @@
 require 'graph/function'
 
-#Graph::Function.as_gif(File.expand_path('../comparing_ints.gif', __FILE__))
-Graph::Function.as_x11
+Graph::Function.as_gif(File.expand_path('../comparing_ints.gif', __FILE__))
 
 def bubble_sort(array)
   n = array.length

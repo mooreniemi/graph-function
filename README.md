@@ -1,3 +1,21 @@
+```
+                        .-.      / \        _
+            ^^         /   \    /^./\__   _/ \
+          _        .--'\/\_ \__/.      \ /    \  ^^  ___
+         / \_    _/ ^      \/  __  :'   /\/\  /\  __/   \
+        /    \  /    .'   _/  /  \   ^ /    \/  \/ .`'\_/\
+       /\/\  /\/ :' __  ^/  ^/    `--./.'  ^  `-.\ _    _:\ _
+      /    \/  \  _/  \-' __/.' ^ _   \_   .'\   _/ \ .  __/ \
+    /\  .-   `. \/     \ / -.   _/ \ -. `_/   \ /    `._/  ^  \
+   /  `-.__ ^   / .-'.--'    . /    `--./ .-'  `-.  `-. `.  -  `.
+ @/        `.  / /      `-.   /  .-'   / .   .'   \    \  \  .-  \%
+ @(88%@)@%% @)&@&(88&@.-_=_-=_-=_-=_-=_.8@% &@&&8(8%@%8)(8@%8 8%@)%
+ @88:::&(&8&&8::JGS:&`.~-_~~-~~_~-~_~-~~=.'@(&%::::%@8&8)::&#@8::::
+ `::::::8%@@%:::::@%&8:`.=~~-.~~-.~~=..~'8::::::::&@8:::::&8::::::'
+  `::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+
+```
+
 # Graph::Function
 
 This gem's goal is to make it easy to compare the [asymptotic performance](https://en.wikipedia.org/wiki/Asymptotic_analysis) of two or more functions via graphing.
@@ -42,15 +60,22 @@ To set up, you only need the following:
 
 ```ruby
 require 'graph/function'
-Graph::Function.configure
+Graph::Function.as_x11
 ```
 
-If you don't want to output to x11, just set `config.terminal` to a different option like `gif` (or anything else gnuplot [respects as a terminal](http://mibai.tec.u-ryukyu.ac.jp/~oshiro/Doc/gnuplot_primer/gptermcmp.html)). Output is the file location of output, and is ignored for x11.
+If you don't want to output to [x11](https://www.xquartz.org/), just set `config.terminal` to a different option. Two convenience methods exist for `gif` and `canvas`, you just need to provide them with a file to output to:
+
+```ruby
+Graph::Function.as_gif(File.expand_path('../comparing_ints.gif', __FILE__))
+Graph::Function.as_canvas(File.expand_path('../comparing_ints.html', __FILE__))
+```
+
+You can use anything else gnuplot [respects as a terminal](http://mibai.tec.u-ryukyu.ac.jp/~oshiro/Doc/gnuplot_primer/gptermcmp.html), even outputting to just `txt`!
 
 ```ruby
 Graph::Function.configure do |config|
-  config.terminal = 'gif'
-  config.output = File.expand_path('../your_graph_name.gif', __FILE__)
+  config.terminal = 'dumb'
+  config.output = File.expand_path('../your_graph_name.txt', __FILE__)
   config.step = (0..10_000).step(1000).to_a # default value
 end
 ```
