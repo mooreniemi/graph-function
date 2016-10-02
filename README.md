@@ -64,6 +64,10 @@ Graph::Function.as_gif
 Graph::Function::IntsComparison.of(method(:sort), method(:bubble_sort))
 ```
 
+Produces:
+
+![comparing ints](examples/comparing_ints.gif)
+
 ### Setup
 
 To set up, you only need the following:
