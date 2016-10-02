@@ -54,6 +54,16 @@ Or install it yourself as:
 
 ## Usage
 
+### TL;DR
+
+From the [comparing ints example](examples/comparing_ints.rb):
+
+```ruby
+require 'graph/function'
+Graph::Function.as_gif
+Graph::Function::IntsComparison.of(method(:sort), method(:bubble_sort))
+```
+
 ### Setup
 
 To set up, you only need the following:
@@ -63,9 +73,11 @@ require 'graph/function'
 Graph::Function.as_x11
 ```
 
-If you don't want to output to [x11](https://www.xquartz.org/), just set `config.terminal` to a different option. Two convenience methods exist for `gif` and `canvas`, you just need to provide them with a file to output to:
+If you don't want to output to [x11](https://www.xquartz.org/), just set `config.terminal` to a different option. Two convenience methods exist for `gif` and `canvas`:
 
 ```ruby
+# by default file will be set to name of the executing file and dumped in its dir
+# or you can set file yourself like so:
 Graph::Function.as_gif(File.expand_path('../comparing_ints.gif', __FILE__))
 Graph::Function.as_canvas(File.expand_path('../comparing_ints.html', __FILE__))
 ```
@@ -96,7 +108,22 @@ Graph::Function::IntsComparison.of(c.method(:function_name_one), c.method(:funct
 
 For more complex use cases, you'll be creating a `Graph::Function::Comparison` (or `Graph::Function::Only` if you want to graph a single function) with some generator of data, and executing `#of` with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. (Note because `IntsComparison` *does not need a generator*, `.of` is a class method instead.)
 
-To generate values of the type needed by your function, use the provided dependency [Rantly](https://github.com/hayeah/rantly). There's great documentation on generating many different kinds of data in their documentation, but here's an example of comparing two functions that take `Hash{String => Integer}`:
+### Generators
+
+To generate values of the type needed by your function, you can write
+a generator in Ruby or use the provided dependency
+[Rantly](https://github.com/hayeah/rantly).
+
+Here's an example of a simple Ruby generator, it's just a `Proc` parameterized on `size`:
+
+```ruby
+tiny_int_generator = proc {|size| Array.new(size) { rand(-9...9) } }
+comparison = Graph::Function::Comparison.new(tiny_int_generator)
+```
+
+For Rantly usage, there's great documentation on generating many different kinds of data in
+their documentation, but here's an example of comparing two functions that
+take `Hash{String => Integer}`:
 
 ```ruby
 # you must put it in a proc taking size so Graph::Function can increase it

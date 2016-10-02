@@ -25,14 +25,14 @@ module Graph
 
     singleton_class.send(:alias_method, :as_x11, :configure)
 
-    def self.as_gif(file)
+    def self.as_gif(file = File.expand_path("../#{$0.slice(0..-4)}.gif", __FILE__))
       self.configure do |config|
         config.terminal = 'gif'
         config.output = file
       end
     end
 
-    def self.as_canvas(file)
+    def self.as_canvas(file = File.expand_path("../#{$0.slice(0..-4)}.html", __FILE__))
       self.configure do |config|
         config.terminal = 'canvas'
         config.output = file
