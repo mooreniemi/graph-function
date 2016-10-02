@@ -17,9 +17,9 @@ module Graph
 
             title = case methods.size
                     when 1
-                      "#{methods[0].name}"
+                      "#{camel_title(methods[0].name)}"
                     when 2
-                      "#{methods[0].name} vs #{methods[1].name}"
+                      "#{camel_title(methods[0].name)} vs #{camel_title(methods[1].name)}"
                     else
                       "#{methods.map {|m| camel_title(m.name) }.join(', ') }"
                     end
@@ -27,6 +27,7 @@ module Graph
             set_up(plot)
 
             x = Graph::Function.configuration.step
+            trials = Graph::Function.configuration.trials
             pb = ProgressBar.create(title: title, total: x.size)
 
             methods.each do |m|
@@ -34,7 +35,9 @@ module Graph
               y = x.collect do |v|
                 pb.increment
                 data = data_generator.call(v)
-                Benchmark.measure { m.call(data) }.real
+                (1..trials).collect do |_|
+                  Benchmark.measure { m.call(data) }.real
+                end.reduce(0.0, :+) / trials
               end
 
               plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|

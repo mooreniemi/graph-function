@@ -45,6 +45,13 @@ describe Graph::Function do
       comparison = Graph::Function::Comparison.new(rantly_generator)
       comparison.of(method(:hash_last_value), method(:hash_first_value))
     end
+    it 'can perform multiple trials' do
+      Graph::Function.configuration.terminal = 'gif'
+      Graph::Function.configuration.output = File.expand_path('../multitrial.gif', __FILE__)
+      Graph::Function.configuration.trials = 3
+      comparison = Graph::Function::Comparison.new(rantly_generator)
+      comparison.of(method(:hash_last_value), method(:hash_first_value))
+    end
   end
 
   describe "Comparison of one function" do
