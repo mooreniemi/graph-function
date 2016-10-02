@@ -47,7 +47,7 @@ describe Graph::Function do
     end
   end
 
-  describe Graph::Function::Only do
+  describe "Comparison of one function" do
     let(:rantly_generator) do
       proc {|size|
         Rantly { array(size) {string} }
@@ -71,13 +71,13 @@ describe Graph::Function do
     it 'uses a Rantly generator and acts on one function' do
       Graph::Function.configuration.terminal = 'gif'
       Graph::Function.configuration.output = File.expand_path('../rantly.gif', __FILE__)
-      graph = Graph::Function::Only.new(rantly_generator)
+      graph = Graph::Function::Comparison.new(rantly_generator)
       graph.of(method(:single_func))
     end
     it 'can use a Faker/Rantly generator and acts on one function' do
       Graph::Function.configuration.terminal = 'gif'
       Graph::Function.configuration.output = File.expand_path('../faker.gif', __FILE__)
-      graph = Graph::Function::Only.new(faker_generator)
+      graph = Graph::Function::Comparison.new(faker_generator)
       graph.of(method(:custom_types))
     end
   end

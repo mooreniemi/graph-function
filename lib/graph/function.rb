@@ -7,7 +7,6 @@ require 'ruby-progressbar'
 require 'graph/function/version'
 require 'graph/function/reformat_string'
 require 'graph/function/plot_config'
-require 'graph/function/only'
 require 'graph/function/comparison'
 require 'graph/function/ints_comparison'
 
