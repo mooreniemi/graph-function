@@ -7,7 +7,6 @@ require 'ruby-progressbar'
 require 'graph/function/version'
 require 'graph/function/reformat_string'
 require 'graph/function/plot_config'
-require 'graph/function/only'
 require 'graph/function/comparison'
 require 'graph/function/ints_comparison'
 
@@ -46,6 +45,7 @@ module Graph
     class Configuration
       attr_accessor :terminal, :output
       attr_accessor :step
+      attr_accessor :trials
 
       # defaults
       # see https://github.com/rdp/ruby_gnuplot/blob/master/examples/output_image_file.rb
@@ -54,6 +54,7 @@ module Graph
         @terminal = 'x11'
         @output = '.'
         @step = (0..10_000).step(1000).to_a
+        @trials = 1
       end
     end
   end

@@ -1,48 +1,13 @@
 module Graph
   module Function
-    class IntsComparison
-      extend ReformatString
-      extend PlotConfig
+    class IntsComparison < Comparison
+      def initialize
+        @data_generator = Proc.new {|v| (-v/2 + 1 .. v/2).to_a.shuffle }
+      end
 
-      def self.of(method_one, method_two)
-        fail unless method_one.is_a?(Method) && method_two.is_a?(Method)
-
-        Gnuplot.open do |gp|
-          Gnuplot::Plot.new(gp) do |plot|
-            self.class.send(:define_method, :a, proc(&method_one))
-            self.class.send(:define_method, :b, proc(&method_two))
-
-            plot.title  (title = "#{camel_title(method_one.name)} vs #{camel_title(method_two.name)}")
-            set_up(plot)
-
-            x = Graph::Function.configuration.step
-            pb = ProgressBar.create(title: title, total: x.size)
-
-            y = x.collect do |v|
-              pb.increment
-              array = (0..v - 1).to_a.shuffle
-              Benchmark.measure { a(array) }.real
-            end
-
-            plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|
-              ds.with = "linespoints"
-              ds.title = "#{escape_underscores(method_one.name)}"
-            end
-
-            pb.reset
-
-            z = x.collect do |v|
-              pb.increment
-              array = (0..v - 1).to_a.shuffle
-              Benchmark.measure { b(array) }.real
-            end
-
-            plot.data << Gnuplot::DataSet.new( [x, z] ) do |ds|
-              ds.with = "linespoints"
-              ds.title = "#{escape_underscores(method_two.name)}"
-            end
-          end
-        end
+      def self.of(*methods)
+        comparison = self.new
+        comparison.of(*methods)
       end
     end
   end

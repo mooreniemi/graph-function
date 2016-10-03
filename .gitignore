@@ -6,5 +6,7 @@
 /doc/
 /pkg/
 /spec/reports/
+/spec/graph/*.gif
+/spec/graph/*.txt
 /tmp/
 .DS_Store

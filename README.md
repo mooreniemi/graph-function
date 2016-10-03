@@ -22,10 +22,6 @@ This gem's goal is to make it easy to compare the [asymptotic performance](https
 
 When I work on katas and exercises I found I often wanted to compare my implementations. After doing so a half dozen times I noticed some patterns, and figured it'd be valuable to capture those into an easier API to work with. While working on a kata I like the immediacy of replotting back on x11, but because of gnuplot's structure it is just as easy to get images or html canvas graphs.
 
-## Disclaimer
-
-Because of the current implementation details: Ruby methods which operate on `self` **will not work**, and there is a negligible constant slow down on all functions tested by `Comparison` because of the use of `send(:func)`. The latter won't corrupt comparisons, but means you don't want to use this gem to benchmark functions individually **except** through `Graph::Function::Only`.
-
 ## Installation
 
 Because this gem depends on `gnuplot` and `xquartz`, we need to follow their [prereq steps](https://github.com/rdp/ruby_gnuplot#pre-requisites-and-installation):
@@ -93,10 +89,13 @@ Graph::Function.configure do |config|
   config.terminal = 'dumb'
   config.output = File.expand_path('../your_graph_name.txt', __FILE__)
   config.step = (0..10_000).step(1000).to_a # default value
+  config.trials = 1
 end
 ```
 
-In configuration, you can also control the "step" size of `x` in the plot. Its default value is `(0..10_000).step(1000).to_a` (`[0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]`) but you can make it as fine or rough grained as you need up to any size.
+In configuration, you can control the "step" size of `x` in the plot. Its default value is `(0..10_000).step(1000).to_a` (`[0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]`) but you can make it as fine or rough grained as you need up to any size.
+
+You can also set a number of trials over which to average execution times.
 
 ### Graphing
 
@@ -110,7 +109,7 @@ Graph::Function::IntsComparison.of(c.method(:function_name_one), c.method(:funct
 
 ![comparison](spec/graph/two_func.gif)
 
-For more complex use cases, you'll be creating a `Graph::Function::Comparison` (or `Graph::Function::Only` if you want to graph a single function) with some generator of data, and executing `#of` with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. (Note because `IntsComparison` *does not need a generator*, `.of` is a class method instead.)
+For more complex use cases, you'll be creating a `Graph::Function::Comparison` with some generator of data, and executing `#of` with `Method` objects or `Proc`s that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. (Note because `IntsComparison` *does not need a generator*, `.of` is a class method instead.)
 
 ### Generators
 
@@ -145,8 +144,7 @@ If you want to make use of more "real" fake data, [Faker](https://github.com/sty
 ```ruby
 # again, we need to parameterize our generator with size
 faker_generator = proc {|size| Rantly(size) { call(Proc.new { Faker::Date.backward(14) }) }
-# using Only here, but anything that takes a generator can take one with Faker
-graph = Graph::Function::Only.new(faker_generator)
+graph = Graph::Function::Comparison.new(faker_generator)
 graph.of(method(:custom_types))
 # => will output an xquartz graph
 ```
@@ -156,6 +154,18 @@ graph.of(method(:custom_types))
 The only downside here is that you can't parameterize `Faker`, but you could use random generators to mix it up. Using the above example, `graph-function` won't pass anything into the `faker_generator` but the `size`, so if we want the value to change, we could use `Faker::Date.backward(proc { rand(10) }.call)`.
 
 Check out the [spec file](spec/graph/function_spec.rb) to see all of these or see [examples](examples/).
+
+### Functions that use `self`
+
+For graphing functions that operate on `self`, such as `String#upcase`, you must provide a `Method` or `Proc` that wraps the method call. For instance:
+
+```ruby
+generator = proc {|size| Rantly { sized(size) { string } } }
+# wrap the call to upcase
+test_upcase = proc {|s| s.upcase }
+graph = Graph::Function::Comparison.new(generator)
+graph.of(test_upcase)
+```
 
 ## Development
 
