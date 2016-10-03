@@ -15,14 +15,7 @@ module Graph
         Gnuplot.open do |gp|
           Gnuplot::Plot.new(gp) do |plot|
 
-            title = case methods.size
-                    when 1
-                      "#{camel_title(methods[0].name)}"
-                    when 2
-                      "#{camel_title(methods[0].name)} vs #{camel_title(methods[1].name)}"
-                    else
-                      "#{methods.map {|m| camel_title(m.name) }.join(', ') }"
-                    end
+            title = methods_to_title(methods)
             plot.title title
             set_up(plot)
 
@@ -46,6 +39,18 @@ module Graph
               end
             end
           end
+        end
+      end
+
+      private
+      def methods_to_title(methods)
+        case methods.size
+        when 1
+          "#{camel_title(methods[0].name)}"
+        when 2
+          "#{camel_title(methods[0].name)} vs #{camel_title(methods[1].name)}"
+        else
+          "#{methods.map {|m| camel_title(m.name) }.join(', ') }"
         end
       end
     end
