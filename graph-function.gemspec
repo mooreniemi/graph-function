@@ -6,7 +6,7 @@ require 'graph/function/version'
 Gem::Specification.new do |spec|
   spec.name          = 'graph-function'
   spec.version       = Graph::Function::VERSION
-  spec.authors       = ['Alex Moore-Niemi']
+  spec.authors       = ['Alex Moore-Niemi', 'Cora Johnson-Roberson']
   spec.email         = ['moore.niemi@gmail.com']
 
   spec.summary       = %q{Graph function performance.}
