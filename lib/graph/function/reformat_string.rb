@@ -7,6 +7,10 @@ module Graph
       def camel_title(s)
         s.to_s.split('_').collect(&:capitalize).join
       end
+      def extract_filename(s)
+        matches = /([^\/]+:\d+)\>$/.match(s)
+        !matches.nil? ? matches[1] : s
+      end
     end
   end
 end

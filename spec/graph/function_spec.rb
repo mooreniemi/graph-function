@@ -33,6 +33,7 @@ describe Graph::Function do
         Rantly { dict(size) { [string, integer] }}
       }
     end
+    let(:hash_first_proc) { proc {|hash| hash.values.first}}
     def hash_last_value(hash)
       hash.values.last
     end
@@ -44,6 +45,12 @@ describe Graph::Function do
       Graph::Function.configuration.output = File.expand_path('../comparison.gif', __FILE__)
       comparison = Graph::Function::Comparison.new(rantly_generator)
       comparison.of(method(:hash_last_value), method(:hash_first_value))
+    end
+    it 'can take a proc as input' do
+      Graph::Function.configuration.terminal = 'gif'
+      Graph::Function.configuration.output = File.expand_path('../proc_v_method.gif', __FILE__)
+      comparison = Graph::Function::Comparison.new(rantly_generator)
+      comparison.of(hash_first_proc, method(:hash_first_value))
     end
     it 'can perform multiple trials' do
       Graph::Function.configuration.terminal = 'gif'
@@ -86,6 +93,15 @@ describe Graph::Function do
       Graph::Function.configuration.output = File.expand_path('../faker.gif', __FILE__)
       graph = Graph::Function::Comparison.new(faker_generator)
       graph.of(method(:custom_types))
+    end
+  end
+
+  describe Graph::Function::ReformatString do
+    include Graph::Function::ReformatString
+
+    it 'extracts a filename and line number from Proc#to_s' do
+      proc_to_s = '#<proc:07ffb5380c220@/users/corajr/development/graph-function/spec/graph/function_spec.rb:36>'
+      expect(extract_filename(proc_to_s)).to eq('function_spec.rb:36')
     end
   end
 end

@@ -9,13 +9,13 @@ module Graph
         @data_generator = generator
       end
 
-      def of(*methods)
-        fail unless methods.all? {|m| m.is_a?(Method) }
+      def of(*functions)
+        fail unless functions.all? {|f| f.respond_to?(:call) }
 
         Gnuplot.open do |gp|
           Gnuplot::Plot.new(gp) do |plot|
 
-            title = methods_to_title(methods)
+            title = functions_to_title(functions)
             plot.title title
             set_up(plot)
 
@@ -23,19 +23,19 @@ module Graph
             trials = Graph::Function.configuration.trials
             pb = ProgressBar.create(title: title, total: x.size)
 
-            methods.each do |m|
+            functions.each do |f|
               pb.reset
               y = x.collect do |v|
                 pb.increment
                 data = data_generator.call(v)
                 (1..trials).collect do |_|
-                  Benchmark.measure { m.call(data) }.real
+                  Benchmark.measure { f.call(data) }.real
                 end.reduce(0.0, :+) / trials
               end
 
               plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|
                 ds.with = "linespoints"
-                ds.title = "#{escape_underscores(m.name)}"
+                ds.title = "#{escape_underscores(fname(f))}"
               end
             end
           end
@@ -43,14 +43,18 @@ module Graph
       end
 
       private
-      def methods_to_title(methods)
-        case methods.size
+      def fname(function)
+        function.respond_to?(:name) ? function.name : extract_filename(function.to_s)
+      end
+
+      def functions_to_title(functions)
+        case functions.size
         when 1
-          "#{camel_title(methods[0].name)}"
+          "#{camel_title(fname(functions[0]))}"
         when 2
-          "#{camel_title(methods[0].name)} vs #{camel_title(methods[1].name)}"
+          "#{camel_title(fname(functions[0]))} vs #{camel_title(fname(functions[1]))}"
         else
-          "#{methods.map {|m| camel_title(m.name) }.join(', ') }"
+          "#{functions.map {|f| camel_title(fname(f)) }.join(', ') }"
         end
       end
     end

@@ -109,7 +109,7 @@ Graph::Function::IntsComparison.of(c.method(:function_name_one), c.method(:funct
 
 ![comparison](spec/graph/two_func.gif)
 
-For more complex use cases, you'll be creating a `Graph::Function::Comparison` with some generator of data, and executing `#of` with `Method` objects that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. (Note because `IntsComparison` *does not need a generator*, `.of` is a class method instead.)
+For more complex use cases, you'll be creating a `Graph::Function::Comparison` with some generator of data, and executing `#of` with `Method` objects or `Proc`s that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. (Note because `IntsComparison` *does not need a generator*, `.of` is a class method instead.)
 
 ### Generators
 
