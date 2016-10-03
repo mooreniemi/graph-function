@@ -2,7 +2,7 @@ module Graph
   module Function
     class IntsComparison < Comparison
       def initialize
-        @data_generator = Proc.new {|v| (0..v - 1).to_a.shuffle }
+        @data_generator = Proc.new {|v| (-v/2 + 1 .. v/2).to_a.shuffle }
       end
 
       def self.of(*methods)
