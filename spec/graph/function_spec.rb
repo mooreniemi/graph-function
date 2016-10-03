@@ -1,5 +1,15 @@
 require 'spec_helper'
 
+def drops(results_for_function)
+  # count how often the function takes more time for a smaller input than a larger one
+  xs = results_for_function.values.map {|a| a.reduce(0, :+) }
+  n = 0
+  (0..xs.size - 2).each do |i|
+    n = n + 1 if xs[i] > xs[i + 1]
+  end
+  n
+end
+
 describe Graph::Function do
   it 'has a version number' do
     expect(Graph::Function::VERSION).not_to be nil
@@ -12,8 +22,11 @@ describe Graph::Function do
     def two(array)
       array.each {|e| e * 2 }
     end
-    it 'plots two functions' do
-      Graph::Function::IntsComparison.of(method(:one), method(:two))
+    it 'plots two functions and returns the times from each' do
+      Graph::Function.configuration.trials = 3
+      results = Graph::Function::IntsComparison.of(method(:one), method(:two))
+      expect(drops(results[:one])).to be <= 2
+      expect(drops(results[:two])).to be <= 2
     end
     it 'can output to gif' do
       Graph::Function.configuration.terminal = 'gif'
