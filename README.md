@@ -155,6 +155,18 @@ The only downside here is that you can't parameterize `Faker`, but you could use
 
 Check out the [spec file](spec/graph/function_spec.rb) to see all of these or see [examples](examples/).
 
+### Functions that use `self`
+
+For graphing functions that operate on `self`, such as `String#upcase`, you must provide a `Method` or `Proc` that wraps the method call. For instance:
+
+```ruby
+generator = proc {|size| Rantly { sized(size) { string } } }
+# wrap the call to upcase
+test_upcase = proc {|s| s.upcase }
+graph = Graph::Function::Comparison.new(generator)
+graph.of(test_upcase)
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
