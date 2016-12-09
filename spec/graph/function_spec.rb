@@ -107,6 +107,13 @@ describe Graph::Function do
       graph = Graph::Function::Comparison.new(faker_generator)
       graph.of(method(:custom_types))
     end
+    it 'allows for basic memory profiling' do
+      Graph::Function.configuration.terminal = 'gif'
+      Graph::Function.configuration.memory = true
+      Graph::Function.configuration.output = File.expand_path('../memory.gif', __FILE__)
+      graph = Graph::Function::Comparison.new(faker_generator)
+      graph.of(method(:custom_types))
+    end
   end
 
   describe Graph::Function::ReformatString do

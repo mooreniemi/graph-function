@@ -34,7 +34,11 @@ module Graph
                 pb.increment
                 data = data_generator.call(v)
                 current_trials = (1..trials).collect do |_|
-                  Benchmark.measure { f.call(data) }.real
+                  if Graph::Function.configuration.memory
+                    MemoryProfiler.report { f.call(data) }.total_allocated_memsize
+                  else
+                    Benchmark.measure { f.call(data) }.real
+                  end
                 end
                 results[name][v] = current_trials
                 current_trials.reduce(0.0, :+) / trials

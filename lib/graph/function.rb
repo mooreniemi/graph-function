@@ -1,5 +1,6 @@
 require 'gnuplot'
 require 'benchmark'
+require 'memory_profiler'
 require 'rantly'
 require 'faker'
 require 'ruby-progressbar'
@@ -45,7 +46,7 @@ module Graph
     class Configuration
       attr_accessor :terminal, :output
       attr_accessor :step
-      attr_accessor :trials
+      attr_accessor :trials, :memory
 
       # defaults
       # see https://github.com/rdp/ruby_gnuplot/blob/master/examples/output_image_file.rb
@@ -54,7 +55,9 @@ module Graph
         @terminal = 'x11'
         @output = '.'
         @step = (0..10_000).step(1000).to_a
+        # these are particular to GF, not Gnuplot
         @trials = 1
+        @memory = false
       end
     end
   end
