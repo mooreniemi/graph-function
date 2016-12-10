@@ -22,6 +22,8 @@ This gem's goal is to make it easy to compare the [asymptotic performance](https
 
 When I work on katas and exercises I found I often wanted to compare my implementations. After doing so a half dozen times I noticed some patterns, and figured it'd be valuable to capture those into an easier API to work with. While working on a kata I like the immediacy of replotting back on x11, but because of gnuplot's structure it is just as easy to get images or html canvas graphs.
 
+As a secondary performance metric, you can also [graph total allocated memsize](#graphing-memory).
+
 ## Installation
 
 Because this gem depends on `gnuplot` and `xquartz`, we need to follow their [prereq steps](https://github.com/rdp/ruby_gnuplot#pre-requisites-and-installation):
@@ -110,6 +112,16 @@ Graph::Function::IntsComparison.of(c.method(:function_name_one), c.method(:funct
 ![comparison](spec/graph/two_func.gif)
 
 For more complex use cases, you'll be creating a `Graph::Function::Comparison` with some generator of data, and executing `#of` with `Method` objects or `Proc`s that operate on the same parameter types<sup id="a1">[1](#f1)</sup>. (Note because `IntsComparison` *does not need a generator*, `.of` is a class method instead.)
+
+### Graphing Memory
+
+To graph total allocated memsize rather than execution time, just set the following configuration:
+
+```
+Graph::Function.configure do |config|
+  config.memory = true
+end
+```
 
 ### Generators
 
